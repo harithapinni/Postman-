@@ -65,7 +65,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": 0,\r\n  \"firstName\": \"{{firstname}}\",\r\n  \"lastName\": \"{{lastname}}\",\r\n  \"email\": \"string@gmail\",\r\n  \"phone\": \"1234567890\",\r\n  \"city\": \"string\",\r\n  \"zipCode\": \"104256\",\r\n  \"addressLine1\": \"string\",\r\n  \"addressLine2\": \"string\",\r\n  \"itemNumber\": 0,\r\n  \"comment\": \"string\",\r\n  \"state\": \"AL\"\r\n}",
+							"raw": "{\r\n    \"id\":\"0\",\r\n  \"addressLine1\": \"string\",\r\n  \"addressLine2\": \"string\",\r\n  \"city\": \"string\",\r\n  \"comment\": \"string\",\r\n  \"email\": \"string\",\r\n  \"firstName\": \"{{firstname}}\",\r\n  \"itemNumber\": 0,\r\n  \"lastName\": \"string\",\r\n  \"phone\": \"string\",\r\n  \"state\": \"AL\",\r\n  \"zipCode\": \"string\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -73,14 +73,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{url}}:{{port}}/BillingOrder",
+							"raw": "http://{{url}}:{{port}}/BillingOrder/",
 							"protocol": "http",
 							"host": [
 								"{{url}}"
 							],
 							"port": "{{port}}",
 							"path": [
-								"BillingOrder"
+								"BillingOrder",
+								""
 							]
 						}
 					},
@@ -146,7 +147,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": 0,\r\n  \"firstName\": \"{{firstName}}\",\r\n  \"lastName\": \"string\",\r\n  \"email\": \"string@gmail\",\r\n  \"phone\": \"1234567890\",\r\n  \"city\": \"string\",\r\n  \"zipCode\": \"104256\",\r\n  \"addressLine1\": \"string\",\r\n  \"addressLine2\": \"string\",\r\n  \"itemNumber\": 0,\r\n  \"comment\": \"string\",\r\n  \"state\": \"AL\"\r\n}"
+							"raw": "{ \r\n  \"firstName\": \"{{firstName}}\",\r\n  \"lastName\": \"string\",\r\n  \"email\": \"string@gmail\",\r\n  \"phone\": \"1234567890\",\r\n  \"city\": \"string\",\r\n  \"zipCode\": \"104256\",\r\n  \"addressLine1\": \"string\",\r\n  \"addressLine2\": \"string\",\r\n  \"itemNumber\": 0,\r\n  \"comment\": \"string\",\r\n  \"state\": \"AL\"\r\n}"
 						},
 						"url": {
 							"raw": "http://{{url}}:{{port}}/BillingOrder/{{id}}",
@@ -190,9 +191,7 @@
 									"pm.test(\"Response time is less than 200ms\", function () {\r",
 									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
 									"});\r",
-									"//pm.test(\"Body matches string\", function () {\r",
-									"    //pm.expect(pm.response.text()).to.include(\"Haritha\");\r",
-									"//});\r",
+									"\r",
 									""
 								],
 								"type": "text/javascript"
@@ -231,11 +230,384 @@
 		},
 		{
 			"name": "Read_Billing_order",
-			"item": []
+			"item": [
+				{
+					"name": "Post",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//SetUp---- nunit\r",
+									"pm.environment.set(\"firstName\", \"Haritha\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//\r",
+									"pm.environment.unset(\"firstName\");\r",
+									"\r",
+									"//Assertions\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Haritha\");\r",
+									"});\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+									"});\r",
+									"\r",
+									"    var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.id);\r",
+									" console.log(jsonData.firstName);\r",
+									"\r",
+									"\r",
+									"pm.environment.set(\"id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"0\",\r\n  \"addressLine1\": \"string\",\r\n  \"addressLine2\": \"string\",\r\n  \"city\": \"string\",\r\n  \"comment\": \"string\",\r\n  \"email\": \"string\",\r\n  \"firstName\": \"{{firstname}}\",\r\n  \"itemNumber\": 0,\r\n  \"lastName\": \"string\",\r\n  \"phone\": \"string\",\r\n  \"state\": \"AL\",\r\n  \"zipCode\": \"string\"\r\n}"
+						},
+						"url": {
+							"raw": "http://{{url}}:{{port}}/BillingOrder/",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"BillingOrder",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//SetUp---- nunit\r",
+									"pm.environment.set(\"firstName\", \"Haritha\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//\r",
+									"pm.environment.unset(\"firstName\");\r",
+									"\r",
+									"//Assertions\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Haritha\");\r",
+									"});\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+									"});\r",
+									"\r",
+									"    var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.id);\r",
+									" console.log(jsonData.firstName);\r",
+									"\r",
+									"\r",
+									"pm.environment.set(\"id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"0\",\r\n  \"addressLine1\": \"string\",\r\n  \"addressLine2\": \"string\",\r\n  \"city\": \"string\",\r\n  \"comment\": \"string\",\r\n  \"email\": \"string\",\r\n  \"firstName\": \"{{firstname}}\",\r\n  \"itemNumber\": 0,\r\n  \"lastName\": \"string\",\r\n  \"phone\": \"string\",\r\n  \"state\": \"AL\",\r\n  \"zipCode\": \"string\"\r\n}"
+						},
+						"url": {
+							"raw": "http://{{url}}:{{port}}/BillingOrder/",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"BillingOrder",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Delete_Billing_order",
-			"item": []
+			"item": [
+				{
+					"name": "Post",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//SetUp---- nunit\r",
+									"pm.environment.set(\"firstName\", \"Haritha\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//\r",
+									"pm.environment.unset(\"firstName\");\r",
+									"\r",
+									"//Assertions\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Haritha\");\r",
+									"});\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+									"});\r",
+									"\r",
+									"    var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.id);\r",
+									" console.log(jsonData.firstName);\r",
+									"\r",
+									"\r",
+									"pm.environment.set(\"id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"0\",\r\n  \"addressLine1\": \"string\",\r\n  \"addressLine2\": \"string\",\r\n  \"city\": \"string\",\r\n  \"comment\": \"string\",\r\n  \"email\": \"string\",\r\n  \"firstName\": \"{{firstname}}\",\r\n  \"itemNumber\": 0,\r\n  \"lastName\": \"string\",\r\n  \"phone\": \"string\",\r\n  \"state\": \"AL\",\r\n  \"zipCode\": \"string\"\r\n}"
+						},
+						"url": {
+							"raw": "http://{{url}}:{{port}}/BillingOrder/",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"BillingOrder",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//SetUp---- nunit\r",
+									"pm.environment.set(\"firstName\", \"Haritha\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//\r",
+									"pm.environment.unset(\"firstName\");\r",
+									"\r",
+									"//Assertions\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Haritha\");\r",
+									"});\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+									"});\r",
+									"\r",
+									"    var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.id);\r",
+									" console.log(jsonData.firstName);\r",
+									"\r",
+									"\r",
+									"pm.environment.set(\"id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"0\",\r\n  \"addressLine1\": \"string\",\r\n  \"addressLine2\": \"string\",\r\n  \"city\": \"string\",\r\n  \"comment\": \"string\",\r\n  \"email\": \"string\",\r\n  \"firstName\": \"{{firstname}}\",\r\n  \"itemNumber\": 0,\r\n  \"lastName\": \"string\",\r\n  \"phone\": \"string\",\r\n  \"state\": \"AL\",\r\n  \"zipCode\": \"string\"\r\n}"
+						},
+						"url": {
+							"raw": "http://{{url}}:{{port}}/BillingOrder/{{id}}",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"BillingOrder",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//SetUp---- nunit\r",
+									"pm.environment.set(\"firstName\", \"Haritha\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//\r",
+									"pm.environment.unset(\"firstName\");\r",
+									"\r",
+									"//Assertions\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"// pm.test(\"Body matches string\", function () {\r",
+									"//     pm.expect(pm.response.text()).to.include(\"Haritha\");\r",
+									"// });\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+									"});\r",
+									"\r",
+									"    var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.id);\r",
+									" console.log(jsonData.firstName);\r",
+									"\r",
+									"\r",
+									"pm.environment.set(\"id\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"0\",\r\n  \"addressLine1\": \"string\",\r\n  \"addressLine2\": \"string\",\r\n  \"city\": \"string\",\r\n  \"comment\": \"string\",\r\n  \"email\": \"string\",\r\n  \"firstName\": \"{{firstname}}\",\r\n  \"itemNumber\": 0,\r\n  \"lastName\": \"string\",\r\n  \"phone\": \"string\",\r\n  \"state\": \"AL\",\r\n  \"zipCode\": \"string\"\r\n}"
+						},
+						"url": {
+							"raw": "http://{{url}}:{{port}}/BillingOrder/{{id}}",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"BillingOrder",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Put",
@@ -249,7 +621,8 @@
 					"script": {
 						"exec": [
 							"\r",
-							""
+							"//SetUp---- nunit\r",
+							"pm.environment.set(\"firstName\", \"Haritha\");"
 						],
 						"type": "text/javascript"
 					}
@@ -258,6 +631,29 @@
 					"listen": "test",
 					"script": {
 						"exec": [
+							"//\r",
+							"pm.environment.unset(\"firstName\");\r",
+							"\r",
+							"//Assertions\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"// pm.test(\"Body matches string\", function () {\r",
+							"//     pm.expect(pm.response.text()).to.include(\"Haritha\");\r",
+							"// });\r",
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"\r",
+							"    var jsonData = pm.response.json();\r",
+							"    console.log(jsonData.id);\r",
+							" console.log(jsonData.firstName);\r",
+							"\r",
+							"\r",
+							"pm.environment.set(\"id\", jsonData.id);\r",
 							""
 						],
 						"type": "text/javascript"
@@ -275,18 +671,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"id\": 0,\r\n  \"firstName\": \"{{firstName}}\",\r\n  \"lastName\": \"ABC\",\r\n  \"email\": \"string@gmail\",\r\n  \"phone\": \"1234567890\",\r\n  \"city\": \"string1\",\r\n  \"zipCode\": \"104256\",\r\n  \"addressLine1\": \"string\",\r\n  \"addressLine2\": \"string\",\r\n  \"itemNumber\": 0,\r\n  \"comment\": \"string\",\r\n  \"state\": \"AL\"\r\n}"
+					"raw": "{\r\n  \"firstName\": \"{{firstName}}\",\r\n  \"lastName\": \"abs\",\r\n  \"email\": \"string@gmail\",\r\n  \"phone\": \"1234567890\",\r\n  \"city\": \"string\",\r\n  \"zipCode\": \"104256\",\r\n  \"addressLine1\": \"string\",\r\n  \"addressLine2\": \"string\",\r\n  \"itemNumber\": 0,\r\n  \"comment\": \"string\",\r\n  \"state\": \"AL\"\r\n}"
 				},
 				"url": {
-					"raw": "http://{{url}}:{{port}}/BillingOrder/{{id}}",
+					"raw": "http://{{url}}:{{port}}/BillingOrder",
 					"protocol": "http",
 					"host": [
 						"{{url}}"
 					],
 					"port": "{{port}}",
 					"path": [
-						"BillingOrder",
-						"{{id}}"
+						"BillingOrder"
 					]
 				}
 			},
